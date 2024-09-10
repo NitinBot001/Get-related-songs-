@@ -15,5 +15,5 @@ app.get('/fetch-songs', (req, res) => {
 
 // Listen on all network interfaces (0.0.0.0)
 app.listen(8000, '0.0.0.0', () => {
-    console.log(`Proxy server is running on http://0.0.0.0:${PORT}`);
+    console.log(`Proxy server is running on http://0.0.0.0:8000`);
 });

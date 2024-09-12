@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 from ytmusicapi import YTMusic
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 ytmusic = YTMusic()
 
 @app.route('/related_songs', methods=['GET'])

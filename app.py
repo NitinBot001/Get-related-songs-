@@ -26,5 +26,25 @@ def get_related_songs():
     
     return jsonify(result)
 
+@app.route('/search_songs', methods=['GET'])
+def search_songs():
+    query = request.args.get('query')
+    if not query:
+        return jsonify({'error': 'Please provide a search query'}), 400
+    
+    # Perform search
+    search_results = ytmusic.search(query, filter='songs')
+    
+    # Prepare response
+    result = []
+    for song in search_results:
+        result.append({
+            'title': song['title'],
+            'videoId': song['videoId'],
+            'artists': ', '.join(artist['name'] for artist in song['artists'])
+        })
+    
+    return jsonify(result)
+
 if __name__ == '__main__':
-    app.run(port=8000,host='0.0.0.0',debug=True)
+    app.run(port=8000, host='0.0.0.0', debug=True)

@@ -1,3 +1,4 @@
+youtube-search-python
 flask
 bs4
 ytmusicapi

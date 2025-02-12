@@ -21,7 +21,8 @@ def get_related_songs():
         result.append({
             'title': song['title'],
             'videoId': song['videoId'],
-            'artists': ', '.join(artist['name'] for artist in song['artists'])
+            'artists': ', '.join(artist['name'] for artist in song['artists']),
+            'length' : song['length'] || 'undifined',
         })
     
     return jsonify(result)
@@ -41,7 +42,9 @@ def search_songs():
         result.append({
             'title': song['title'],
             'videoId': song['videoId'],
-            'artists': ', '.join(artist['name'] for artist in song['artists'])
+            'artists': ', '.join(artist['name'] for artist in song['artists']),
+            'duration' : song['duration'] || 'undifined',
+            'views' : song['views'] || 'undifined'
         })
     
     return jsonify(result)

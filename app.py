@@ -13,7 +13,7 @@ def get_related_songs():
         return jsonify({'error': 'Please provide a video_id'}), 400
 
     # Get related songs
-    related_songs = ytmusic.get_watch_playlist(videoId=video_id)['tracks']
+    related_songs = ytmusic.get_watch_playlist(videoId=video_id,shuffle=True)['tracks']
 
     # Prepare response
     result = []

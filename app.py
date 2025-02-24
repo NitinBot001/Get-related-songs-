@@ -36,23 +36,24 @@ def search_songs():
     # Dynamically get filter from query parameters, default to 'songs'
     filter_type = request.args.get('filter', default='songs')
 
-    # Optional: Validate filter type
-    valid_filters = ['songs', 'albums', 'artists', 'playlists', 'videos']
-    if filter_type not in valid_filters:
-        return jsonify({'error': 'Invalid filter type. Supported filters are: songs, albums, artists, playlists, videos'}), 400
-
     # Perform search with dynamic filter
     search_results = ytmusic.search(query, filter=filter_type)
 
-    # Prepare response
+    # Prepare response based on filter type
     result = []
-    for song in search_results:
-        result.append({
-            'title': song['title'],
-            'videoId': song['videoId'],
-            'artists': ', '.join(artist['name'] for artist in song['artists']),
-            'duration': song['duration'] or 'undefined'
-        })
+    if filter_type in ['songs', 'videos']:
+        # Handle songs and videos (they have similar structure)
+        for item in search_results:
+            result.append({
+                'title': item.get('title', 'No Title'),
+                'videoId': item.get('videoId', 'No Video ID'),
+                'artists': ', '.join(artist['name'] for artist in item.get('artists', [])),
+                'duration': item.get('duration', 'undefined')
+            })
+    else:
+        # Handle other filters (artists, playlists, profiles, etc.)
+        for item in search_results:
+            result.append(item)  # Return the entire item as JSON
 
     return jsonify(result)
 

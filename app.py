@@ -13,7 +13,7 @@ def get_related_songs():
         return jsonify({'error': 'Please provide a video_id'}), 400
 
     # Get related songs
-    related_songs = ytmusic.get_watch_playlist(videoId=video_id,radio=True)['tracks']
+    related_songs = ytmusic.get_watch_playlist(videoId=video_id, radio=True)['tracks']
 
     # Prepare response
     result = []
@@ -22,7 +22,7 @@ def get_related_songs():
             'title': song['title'],
             'videoId': song['videoId'],
             'artists': ', '.join(artist['name'] for artist in song['artists']),
-            'length' : song['length'] or 'undifined',
+            'length': song['length'] or 'undefined',
         })
 
     return jsonify(result)
@@ -35,6 +35,11 @@ def search_songs():
 
     # Dynamically get filter from query parameters, default to 'songs'
     filter_type = request.args.get('filter', default='songs')
+
+    # Optional: Validate filter type
+    valid_filters = ['songs', 'albums', 'artists', 'playlists', 'videos']
+    if filter_type not in valid_filters:
+        return jsonify({'error': 'Invalid filter type. Supported filters are: songs, albums, artists, playlists, videos'}), 400
 
     # Perform search with dynamic filter
     search_results = ytmusic.search(query, filter=filter_type)
@@ -53,5 +58,3 @@ def search_songs():
 
 if __name__ == '__main__':
     app.run(port=8000, host='0.0.0.0', debug=True)
-
-            

@@ -33,19 +33,20 @@ def search_songs():
     if not query:
         return jsonify({'error': 'Please provide a search query'}), 400
 
-    # Perform search
-    search_results = ytmusic.search(query, filter='songs')
+    # Dynamically get filter from query parameters, default to 'songs'
+    filter_type = request.args.get('filter', default='songs')
+
+    # Perform search with dynamic filter
+    search_results = ytmusic.search(query, filter=filter_type)
 
     # Prepare response
-    print(search_results)
     result = []
     for song in search_results:
         result.append({
             'title': song['title'],
             'videoId': song['videoId'],
             'artists': ', '.join(artist['name'] for artist in song['artists']),
-            'duration' : song['duration'] or 'undifined'
-            # 'views' : song['views'] or 'undifined'
+            'duration': song['duration'] or 'undefined'
         })
 
     return jsonify(result)

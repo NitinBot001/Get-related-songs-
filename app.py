@@ -18,7 +18,7 @@ def parse_song_data(song, source_type='watch'):
     try:
         # 1. Get Thumbnails (High Quality)
         # ytmusicapi usually returns a list; the last one is often highest res.
-        thurl = f"https://wsrv.nl/?url=https://i.ytimg.com/vi_webp/{song.get(videoId)}/maxresdefault.webp&w=720&h=720&fit=cover"
+        thurl = f"https://wsrv.nl/?url=https://i.ytimg.com/vi_webp/{song.get('videoId')}/maxresdefault.webp&w=720&h=720&fit=cover"
         thumbnail_url = thurl
 
         # 2. Get Artists
